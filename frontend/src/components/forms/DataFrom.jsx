@@ -1,221 +1,24 @@
 import { useState } from "react";
-import { Box, TextField, MenuItem, Slider, Autocomplete } from "@mui/material";
-const countriesList = [
-  "Afghanistan",
-  "Albania",
-  "Algeria",
-  "Andorra",
-  "Angola",
-  "Antigua and Barbuda",
-  "Argentina",
-  "Armenia",
-  "Australia",
-  "Austria",
-  "Azerbaijan",
-  "Bahamas",
-  "Bahrain",
-  "Bangladesh",
-  "Barbados",
-  "Belarus",
-  "Belgium",
-  "Belize",
-  "Benin",
-  "Bhutan",
-  "Bolivia",
-  "Bosnia and Herzegovina",
-  "Botswana",
-  "Brazil",
-  "Brunei",
-  "Bulgaria",
-  "Burkina Faso",
-  "Burundi",
-  "Cabo Verde",
-  "Cambodia",
-  "Cameroon",
-  "Canada",
-  "Central African Republic",
-  "Chad",
-  "Chile",
-  "China",
-  "Colombia",
-  "Comoros",
-  "Congo",
-  "Costa Rica",
-  "Croatia",
-  "Cuba",
-  "Cyprus",
-  "Czech Republic",
-  "Denmark",
-  "Djibouti",
-  "Dominica",
-  "Dominican Republic",
-  "East Timor",
-  "Ecuador",
-  "Egypt",
-  "El Salvador",
-  "Equatorial Guinea",
-  "Eritrea",
-  "Estonia",
-  "Eswatini",
-  "Ethiopia",
-  "Fiji",
-  "Finland",
-  "France",
-  "Gabon",
-  "Gambia",
-  "Georgia",
-  "Germany",
-  "Ghana",
-  "Greece",
-  "Grenada",
-  "Guatemala",
-  "Guinea",
-  "Guinea-Bissau",
-  "Guyana",
-  "Haiti",
-  "Honduras",
-  "Hungary",
-  "Iceland",
-  "India",
-  "Indonesia",
-  "Iran",
-  "Iraq",
-  "Ireland",
-  "Israel",
-  "Italy",
-  "Jamaica",
-  "Japan",
-  "Jordan",
-  "Kazakhstan",
-  "Kenya",
-  "Kiribati",
-  "Korea, North",
-  "Korea, South",
-  "Kosovo",
-  "Kuwait",
-  "Kyrgyzstan",
-  "Laos",
-  "Latvia",
-  "Lebanon",
-  "Lesotho",
-  "Liberia",
-  "Libya",
-  "Liechtenstein",
-  "Lithuania",
-  "Luxembourg",
-  "Madagascar",
-  "Malawi",
-  "Malaysia",
-  "Maldives",
-  "Mali",
-  "Malta",
-  "Marshall Islands",
-  "Mauritania",
-  "Mauritius",
-  "Mexico",
-  "Micronesia",
-  "Moldova",
-  "Monaco",
-  "Mongolia",
-  "Montenegro",
-  "Morocco",
-  "Mozambique",
-  "Myanmar",
-  "Namibia",
-  "Nauru",
-  "Nepal",
-  "Netherlands",
-  "New Zealand",
-  "Nicaragua",
-  "Niger",
-  "Nigeria",
-  "North Macedonia",
-  "Norway",
-  "Oman",
-  "Pakistan",
-  "Palau",
-  "Panama",
-  "Papua New Guinea",
-  "Paraguay",
-  "Peru",
-  "Philippines",
-  "Poland",
-  "Portugal",
-  "Qatar",
-  "Romania",
-  "Russia",
-  "Rwanda",
-  "Saint Kitts and Nevis",
-  "Saint Lucia",
-  "Saint Vincent and the Grenadines",
-  "Samoa",
-  "San Marino",
-  "Sao Tome and Principe",
-  "Saudi Arabia",
-  "Senegal",
-  "Serbia",
-  "Seychelles",
-  "Sierra Leone",
-  "Singapore",
-  "Slovakia",
-  "Slovenia",
-  "Solomon Islands",
-  "Somalia",
-  "South Africa",
-  "South Sudan",
-  "Spain",
-  "Sri Lanka",
-  "Sudan",
-  "Suriname",
-  "Sweden",
-  "Switzerland",
-  "Syria",
-  "Taiwan",
-  "Tajikistan",
-  "Tanzania",
-  "Thailand",
-  "Togo",
-  "Tonga",
-  "Trinidad and Tobago",
-  "Tunisia",
-  "Turkey",
-  "Turkmenistan",
-  "Tuvalu",
-  "Uganda",
-  "Ukraine",
-  "United Arab Emirates",
-  "United Kingdom",
-  "United States",
-  "Uruguay",
-  "Uzbekistan",
-  "Vanuatu",
-  "Vatican City",
-  "Venezuela",
-  "Vietnam",
-  "Yemen",
-  "Zambia",
-  "Zimbabwe",
-];
-const disordersList = [
-  "Schizophrenia",
-  "Bipolar Disorders",
-  "Eating Disorders",
-  "Anxiety Disorders",
-  "Depression",
-  "Alcohol Disorders",
-];
-const HappinessList = [
-  "life Ladder",
-  "GDP",
-  "Social Support",
-  "Healthy Life Expectancy",
-  "Freedom to make life choices",
-  "Generosity",
-  "Perceptions of corruption",
-  "Positive affect",
-  "Negative affect",
-  "Confidence in national government",
-];
+import {
+  Box,
+  TextField,
+  MenuItem,
+  Slider,
+  Autocomplete,
+  Typography,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  Button,
+  Alert,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import HappinessList from "../../utils/happiness";
+import countriesList from "../../utils/country";
+import disordersList from "../../utils/disorders";
+
 function DataFrom() {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedDisorders, setSelectedDisorders] = useState([]);
@@ -223,10 +26,9 @@ function DataFrom() {
   const [selectedHappiness, setSelectedHappiness] = useState([]);
   const [happinesses, setHappinesses] = useState(HappinessList);
   const [years, setYears] = useState([2005, 2017]);
+  const [resultData, setResultData] = useState(null);
+  const [error, setError] = useState("");
 
-  const handleCountryChange = (e) => {
-    setSelectedCountry(e.target.value);
-  };
   const handleDisorderChange = (e) => {
     const selectedOption = e.target.value;
     if (selectedOption && !selectedDisorders.includes(selectedOption)) {
@@ -249,6 +51,7 @@ function DataFrom() {
       );
     }
   };
+
   const handleRemoveHappiness = (happiness) => {
     setSelectedHappiness(
       selectedHappiness.filter((item) => item !== happiness)
@@ -267,20 +70,67 @@ function DataFrom() {
       setYears([years[0], Math.max(newValue[1], years[0] + minDistance)]);
     }
   };
+
+  const handleCountryChange = (event, newValue) => {
+    setSelectedCountry(newValue);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (!selectedCountry) {
+      setError("Country is required");
+      return;
+    }
+
+    const queryParameters = new URLSearchParams();
+
+    selectedDisorders.forEach((disorder) => {
+      queryParameters.append(disorder, "true");
+    });
+
+    selectedHappiness.forEach((happiness) => {
+      queryParameters.append(happiness, "true");
+    });
+
+    const url = `http://127.0.0.1:5000/data/${selectedCountry}/${years[0]}/${
+      years[1]
+    }?${queryParameters.toString()}`;
+
+    fetch(url, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        setResultData(data);
+        setError("");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setError("Failed to fetch data");
+      });
+  };
+
   return (
     <Box width="300px">
-      <h1>Data Form</h1>
-      <form>
+      <Typography variant="h2">Data Form</Typography>
+      <Box component="form" onSubmit={handleSubmit} noValidate>
         <Autocomplete
-          disablePortal
           id="countrySelect"
-          options={countriesList}
           sx={{ width: 300 }}
+          options={countriesList}
+          autoHighlight
+          onChange={handleCountryChange}
           renderInput={(params) => (
             <TextField
               {...params}
               label="Select a country"
-              onChange={handleCountryChange}
+              required
+              inputProps={{
+                ...params.inputProps,
+                autoComplete: "new-password",
+              }}
             />
           )}
         />
@@ -290,6 +140,7 @@ function DataFrom() {
           select
           onChange={handleDisorderChange}
           fullWidth
+          margin="normal"
           placeholder="Select a disorder"
         >
           {disorders.map((disorder) => (
@@ -303,6 +154,7 @@ function DataFrom() {
           select
           onChange={handleHappinessChange}
           fullWidth
+          margin="normal"
         >
           {happinesses.map((happiness) => (
             <MenuItem key={happiness} value={happiness}>
@@ -311,52 +163,97 @@ function DataFrom() {
           ))}
         </TextField>
 
-        <Slider
-          getAriaLabel={() => "Years range"}
-          value={years}
-          onChange={handleChangeYears}
-          valueLabelDisplay="on"
-          min={2005}
-          max={2017}
-          step={1}
-          defaultValue={[2005, 2017]}
-          disableSwap
-          marks
-        />
-      </form>
+        <Box mt={2}>
+          <Typography gutterBottom>Years range</Typography>
+          <Slider
+            getAriaLabel={() => "Years range"}
+            value={years}
+            onChange={handleChangeYears}
+            valueLabelDisplay="on"
+            min={2005}
+            max={2017}
+            step={1}
+            disableSwap
+            marks
+          />
+        </Box>
+        <Box mt={2}>
+          <Button type="submit" variant="contained" color="primary">
+            Submit
+          </Button>
+        </Box>
+      </Box>
 
-      <div>
-        <h2>Selected Disorders:</h2>
-        <ul>
+      {error && (
+        <Box mt={2}>
+          <Alert severity="error">{error}</Alert>
+        </Box>
+      )}
+
+      <Box mt={2}>
+        <Typography variant="h5">Selected Disorders:</Typography>
+        <List>
           {selectedDisorders.map((disorder) => (
-            <li key={disorder}>
-              <span
-                style={{ cursor: "pointer", color: "red", marginRight: "10px" }}
-                onClick={() => handleRemoveDisorder(disorder)}
-              >
-                &#x2716;
-              </span>
-              {disorder}
-            </li>
+            <ListItem key={disorder}>
+              <ListItemText primary={disorder} />
+              <ListItemSecondaryAction>
+                <IconButton
+                  edge="end"
+                  color="secondary"
+                  onClick={() => handleRemoveDisorder(disorder)}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
           ))}
-        </ul>
-        <h2>Selected Country:</h2>
-        <p>{selectedCountry}</p>
-        <h2>Selected Happiness:</h2>
-        <ul>
+        </List>
+
+        <Typography variant="h5">Selected Country:</Typography>
+        <Typography>{selectedCountry}</Typography>
+
+        <Typography variant="h5">Selected Happiness:</Typography>
+        <List>
           {selectedHappiness.map((happiness) => (
-            <li key={happiness}>
-              <span
-                style={{ cursor: "pointer", color: "red", marginRight: "10px" }}
-                onClick={() => handleRemoveHappiness(happiness)}
-              >
-                &#x2716;
-              </span>
-              {happiness}
-            </li>
+            <ListItem key={happiness}>
+              <ListItemText primary={happiness} />
+              <ListItemSecondaryAction>
+                <IconButton
+                  edge="end"
+                  color="secondary"
+                  onClick={() => handleRemoveHappiness(happiness)}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
           ))}
-        </ul>
-      </div>
+        </List>
+      </Box>
+
+      {resultData && (
+        <Box mt={2}>
+          <Typography variant="h4">Result Data</Typography>
+          <Typography>Country: {resultData.Country}</Typography>
+          <Typography>
+            Years: {resultData["Start Year"]} - {resultData["End Year"]}
+          </Typography>
+          <Box mt={2}>
+            {Object.entries(resultData.Data).map(([key, values]) => (
+              <Box key={key} mb={2}>
+                <Typography variant="h6">{key}</Typography>
+                <List>
+                  {values.map((value, index) => (
+                    <ListItem key={index}>
+                      <ListItemText primary={value} />
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 }
