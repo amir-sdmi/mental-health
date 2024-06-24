@@ -1,39 +1,20 @@
+import pandas as pd
 
+def calculate_percentage_change(data, column):
+    data[column] = data[column].pct_change() * 100
+    return data
 
-# import pandas as pd
-# import numpy as np
+def filter_and_prepare_data(query_params, mh_filtered, wh_filtered, gdp_filtered):
 
-# # historical min and max values
-# def compute_global_min_max(dataframes, exclude_columns=['Year', 'Country name', 'Entity']):
-#     global_min = {}
-#     global_max = {}
-#     for df in dataframes:
-#         for column in df.columns:
-#             if column not in exclude_columns:
-#                 min_val = df[column].min()
-#                 max_val = df[column].max()
-#                 if column in global_min:
-#                     global_min[column] = min(global_min[column], min_val)
-#                     global_max[column] = max(global_max[column], max_val)
-#                 else:
-#                     global_min[column] = min_val
-#                     global_max[column] = max_val
-#     return global_min, global_max
+    if 'GDP' in query_params:
+        gdp_filtered = calculate_percentage_change(gdp_filtered, 'GDP')
 
-# mental_health_data = pd.read_csv('assets/Cleaned_Mental_Health_Data.csv')
-# world_happiness_data = pd.read_csv('assets/Cleaned_World_Happiness_Report_2005-2021.csv')
-# global_min, global_max = compute_global_min_max([mental_health_data, world_happiness_data])
+    mh_columns = set(query_params.keys()).intersection(mh_filtered.columns)
+    wh_columns = set(query_params.keys()).intersection(wh_filtered.columns)
+    gdp_column = 'GDP' if 'GDP' in query_params else None
 
-# def scale_data_with_global_min_max(data, global_min, global_max):
+    mh_features = mh_filtered[list(mh_columns)] if mh_columns else pd.DataFrame()
+    wh_features = wh_filtered[list(wh_columns)] if wh_columns else pd.DataFrame()
+    gdp_features = gdp_filtered[[gdp_column]] if gdp_column else pd.DataFrame()
 
-#     data = data.ffill().bfill()
-#     scaled_data = pd.DataFrame(index=data.index)
-
-#     for column in data.columns:
-#         if column in global_min and column in global_max:
-#             min_val = global_min[column]
-#             max_val = global_max[column]
-#             scaled_data[column] = (data[column] - min_val) / (max_val - min_val)
-#         else:
-#             scaled_data[column] = data[column]  # Non-numeric data remains unchanged
-#     return scaled_data
+    return mh_features, wh_features, gdp_features, mh_columns, wh_columns, gdp_column
