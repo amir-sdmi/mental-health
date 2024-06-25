@@ -19,7 +19,7 @@ import HappinessList from "../../utils/happiness";
 import countriesList from "../../utils/country";
 import disordersList from "../../utils/disorders";
 
-function DataFrom() {
+function DataForm() {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedDisorders, setSelectedDisorders] = useState([]);
   const [disorders, setDisorders] = useState(disordersList);
@@ -258,4 +258,4 @@ function DataFrom() {
   );
 }
 
-export default DataFrom;
+export default DataForm;

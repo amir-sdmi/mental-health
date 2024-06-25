@@ -1,14 +1,14 @@
 const HappinessList = [
-  "life Ladder",
+  "Life-Ladder",
   "GDP",
-  "Social Support",
-  "Healthy Life Expectancy",
-  "Freedom to make life choices",
+  "Social-support",
+  "Healthy-life-expectancy-at-birth",
+  "Freedom-to-make-life-choices",
   "Generosity",
-  "Perceptions of corruption",
-  "Positive affect",
-  "Negative affect",
-  "Confidence in national government",
+  "Perceptions-of-corruption",
+  "Positive-affect",
+  "Negative-affect",
+  "Confidence-in-national-government",
 ];
 
 export default HappinessList;
