@@ -19,14 +19,13 @@ import HappinessList from "../../utils/happiness";
 import countriesList from "../../utils/country";
 import disordersList from "../../utils/disorders";
 
-function DataForm() {
+function DataForm({ setResultData }) {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedDisorders, setSelectedDisorders] = useState([]);
   const [disorders, setDisorders] = useState(disordersList);
   const [selectedHappiness, setSelectedHappiness] = useState([]);
   const [happinesses, setHappinesses] = useState(HappinessList);
   const [years, setYears] = useState([2005, 2017]);
-  const [resultData, setResultData] = useState(null);
   const [error, setError] = useState("");
 
   const handleDisorderChange = (e) => {
@@ -230,30 +229,6 @@ function DataForm() {
           ))}
         </List>
       </Box>
-
-      {resultData && (
-        <Box mt={2}>
-          <Typography variant="h4">Result Data</Typography>
-          <Typography>Country: {resultData.Country}</Typography>
-          <Typography>
-            Years: {resultData["Start Year"]} - {resultData["End Year"]}
-          </Typography>
-          <Box mt={2}>
-            {Object.entries(resultData.Data).map(([key, values]) => (
-              <Box key={key} mb={2}>
-                <Typography variant="h6">{key}</Typography>
-                <List>
-                  {values.map((value, index) => (
-                    <ListItem key={index}>
-                      <ListItemText primary={value} />
-                    </ListItem>
-                  ))}
-                </List>
-              </Box>
-            ))}
-          </Box>
-        </Box>
-      )}
     </Box>
   );
 }
