@@ -6,6 +6,9 @@ def perform_regression(data, target_column, gdp_column='GDP'):
         # Not enough data points for regression
         return None, [0], 0
 
+    # Fill NaN values with the mean of the column
+    data = data.fillna(data.mean())
+
     model = LinearRegression()
     X = data[[gdp_column]]
     y = data[target_column]
