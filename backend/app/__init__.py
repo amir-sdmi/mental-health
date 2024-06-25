@@ -9,7 +9,6 @@ def create_app():
 
     api.add_resource(DataQuery, "/data/<string:countryName>/<int:startDate>/<int:endDate>")
 
-    # Initialize error handlers
     ErrorHandler.init_app(app)
 
     return app
