@@ -18,3 +18,6 @@ def filter_and_prepare_data(query_params, mh_filtered, wh_filtered, gdp_filtered
     gdp_features = gdp_filtered[[gdp_column]] if gdp_column else pd.DataFrame()
 
     return mh_features, wh_features, gdp_features, mh_columns, wh_columns, gdp_column
+
+def combine_features(mh_features, wh_features, gdp_features):
+    return pd.concat([mh_features, wh_features, gdp_features], axis=1).dropna()
