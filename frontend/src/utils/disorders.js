@@ -1,10 +1,10 @@
 const disordersList = [
   "Schizophrenia",
-  "Bipolar Disorders",
-  "Eating Disorders",
-  "Anxiety Disorders",
+  "Bipolar-disorder",
+  "Eating-disorders",
+  "Anxiety-disorders",
   "Depression",
-  "Alcohol Disorders",
+  "Alcohol-use-disorders",
 ];
 
 export default disordersList;

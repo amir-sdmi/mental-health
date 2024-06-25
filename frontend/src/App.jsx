@@ -1,5 +1,5 @@
 import { Container, Grid } from "@mui/material";
-import DataFrom from "./components/forms/DataFrom";
+import DataForm from "./components/forms/DataForm";
 import Graph from "./components/Graph";
 import "./App.css";
 
@@ -8,7 +8,7 @@ function App() {
     <Container>
       <Grid container spacing={2}>
         <Grid item xs={12} md={4}>
-          <DataFrom />
+          <DataForm />
         </Grid>
         <Grid item xs={12} md={8}>
           <Graph />
