@@ -19,15 +19,12 @@ def filter_and_prepare_data(query_params, mh_filtered, wh_filtered, gdp_filtered
     return mh_features, wh_features, gdp_features, mh_columns, wh_columns, gdp_column
 
 def combine_features(mh_features, wh_features, gdp_features, start_year, end_year):
-   
     all_years = pd.DataFrame(index=pd.RangeIndex(start_year, end_year + 1))
-    mh_features = all_years.join(mh_features, how='left').fillna(method='ffill')
-    wh_features = all_years.join(wh_features, how='left').fillna(method='ffill')
-    gdp_features = all_years.join(gdp_features, how='left').fillna(method='ffill')
+    mh_features = all_years.join(mh_features, how='left').ffill()
+    wh_features = all_years.join(wh_features, how='left').ffill()
+    gdp_features = all_years.join(gdp_features, how='left').ffill()
 
     combined_features = pd.concat([mh_features, wh_features, gdp_features], axis=1)
-
-    
     combined_features = combined_features.apply(lambda x: x.fillna(x.mean()), axis=0)
 
     return combined_features
