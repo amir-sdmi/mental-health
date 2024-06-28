@@ -1,9 +1,11 @@
 from flask_restful import Resource
-from flask import request
+from flask import request, jsonify
+import pandas as pd
 from app.resources.data_loader import mental_health_data, world_happiness_data, gdp_data, available_countries
 from app.resources.data_filter import filter_data
 from app.services.regression_analysis import perform_regression
 import logging
+import numpy as np
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -30,7 +32,8 @@ class DataQuery(Resource):
                             'intercept': intercept
                         }
 
-        result_data = {col: combined_features[col].tolist() for col in combined_features.columns}
+        # Convert DataFrame to dict and replace NaN with None (null in JSON)
+        result_data = combined_features.replace({np.nan: None}).to_dict(orient='list')
 
         result = {
             'Country': countryName.capitalize(),
@@ -40,4 +43,4 @@ class DataQuery(Resource):
             'Regression': regression_results
         }
 
-        return result
+        return jsonify(result)
