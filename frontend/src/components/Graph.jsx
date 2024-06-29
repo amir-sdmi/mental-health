@@ -8,9 +8,9 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { Box, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 
-const Graph = ({ data }) => {
+const Graphs = ({ data }) => {
   if (!data) {
     return (
       <Box>
@@ -27,14 +27,6 @@ const Graph = ({ data }) => {
   for (let year = startYear; year <= endYear; year++) {
     years.push(year);
   }
-
-  const chartData = years.map((year, index) => {
-    const yearData = { year };
-    Object.keys(Data).forEach((key) => {
-      yearData[key] = Data[key][index];
-    });
-    return yearData;
-  });
 
   const colors = [
     "#8884d8",
@@ -62,29 +54,44 @@ const Graph = ({ data }) => {
       <Typography variant="h4" gutterBottom>
         Mental Health and Social Metrics Over Time
       </Typography>
-      <ResponsiveContainer width="100%" height={600}>
-        <LineChart
-          data={chartData}
-          margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="year" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          {Object.keys(Data).map((key, index) => (
-            <Line
-              key={key}
-              type="monotone"
-              dataKey={key}
-              stroke={colors[index % colors.length]}
-              activeDot={{ r: 8 }}
-            />
-          ))}
-        </LineChart>
-      </ResponsiveContainer>
+      <Grid container spacing={2}>
+        {Object.keys(Data).map((key, index) => {
+          const chartData = years.map((year, idx) => ({
+            year,
+            value: Data[key][idx],
+          }));
+
+          return (
+            <Grid item xs={12} md={6} key={key}>
+              <Box>
+                <Typography variant="h5" gutterBottom>
+                  {key.replace(/-/g, " ")}
+                </Typography>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart
+                    data={chartData}
+                    margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="year" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line
+                      type="monotone"
+                      dataKey="value"
+                      stroke={colors[index % colors.length]}
+                      activeDot={{ r: 8 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </Box>
+            </Grid>
+          );
+        })}
+      </Grid>
     </Box>
   );
 };
 
-export default Graph;
+export default Graphs;

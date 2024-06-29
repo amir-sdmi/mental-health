@@ -1,23 +1,12 @@
 import { useState } from "react";
-import {
-  Box,
-  TextField,
-  MenuItem,
-  Slider,
-  Autocomplete,
-  Typography,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  Button,
-  Alert,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import { Box, Typography, Button } from "@mui/material";
 import HappinessList from "../../utils/happiness";
-import countriesList from "../../utils/country";
 import disordersList from "../../utils/disorders";
+import CountrySelector from "./CountrySelector";
+import DisorderSelector from "./DisorderSelector";
+import HappinessSelector from "./HappinessSelector";
+import YearSlider from "./YearSlider";
+import ErrorAlert from "./ErrorAlert";
 
 function DataForm({ setResultData }) {
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -101,7 +90,7 @@ function DataForm({ setResultData }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
+        console.log("Success:", JSON.stringify(data, null, 2));
         setResultData(data);
         setError("");
       })
@@ -115,120 +104,30 @@ function DataForm({ setResultData }) {
     <Box width="300px">
       <Typography variant="h2">Data Form</Typography>
       <Box component="form" onSubmit={handleSubmit} noValidate>
-        <Autocomplete
-          id="countrySelect"
-          sx={{ width: 300 }}
-          options={countriesList}
-          autoHighlight
-          onChange={handleCountryChange}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Select a country"
-              required
-              inputProps={{
-                ...params.inputProps,
-                autoComplete: "new-password",
-              }}
-            />
-          )}
+        <CountrySelector
+          selectedCountry={selectedCountry}
+          handleCountryChange={handleCountryChange}
         />
-
-        <TextField
-          label="Select a disorder"
-          select
-          onChange={handleDisorderChange}
-          fullWidth
-          margin="normal"
-          placeholder="Select a disorder"
-        >
-          {disorders.map((disorder) => (
-            <MenuItem key={disorder} value={disorder}>
-              {disorder}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          label="Select a happiness"
-          select
-          onChange={handleHappinessChange}
-          fullWidth
-          margin="normal"
-        >
-          {happinesses.map((happiness) => (
-            <MenuItem key={happiness} value={happiness}>
-              {happiness}
-            </MenuItem>
-          ))}
-        </TextField>
-
-        <Box mt={2}>
-          <Typography gutterBottom>Years range</Typography>
-          <Slider
-            getAriaLabel={() => "Years range"}
-            value={years}
-            onChange={handleChangeYears}
-            valueLabelDisplay="on"
-            min={2005}
-            max={2017}
-            step={1}
-            disableSwap
-            marks
-          />
-        </Box>
+        <DisorderSelector
+          disorders={disorders}
+          selectedDisorders={selectedDisorders}
+          handleDisorderChange={handleDisorderChange}
+          handleRemoveDisorder={handleRemoveDisorder}
+        />
+        <HappinessSelector
+          happinesses={happinesses}
+          selectedHappiness={selectedHappiness}
+          handleHappinessChange={handleHappinessChange}
+          handleRemoveHappiness={handleRemoveHappiness}
+        />
+        <YearSlider years={years} handleChangeYears={handleChangeYears} />
         <Box mt={2}>
           <Button type="submit" variant="contained" color="primary">
             Submit
           </Button>
         </Box>
       </Box>
-
-      {error && (
-        <Box mt={2}>
-          <Alert severity="error">{error}</Alert>
-        </Box>
-      )}
-
-      <Box mt={2}>
-        <Typography variant="h5">Selected Disorders:</Typography>
-        <List>
-          {selectedDisorders.map((disorder) => (
-            <ListItem key={disorder}>
-              <ListItemText primary={disorder} />
-              <ListItemSecondaryAction>
-                <IconButton
-                  edge="end"
-                  color="secondary"
-                  onClick={() => handleRemoveDisorder(disorder)}
-                >
-                  <CloseIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))}
-        </List>
-
-        <Typography variant="h5">Selected Country:</Typography>
-        <Typography>{selectedCountry}</Typography>
-
-        <Typography variant="h5">Selected Happiness:</Typography>
-        <List>
-          {selectedHappiness.map((happiness) => (
-            <ListItem key={happiness}>
-              <ListItemText primary={happiness} />
-              <ListItemSecondaryAction>
-                <IconButton
-                  edge="end"
-                  color="secondary"
-                  onClick={() => handleRemoveHappiness(happiness)}
-                >
-                  <CloseIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))}
-        </List>
-      </Box>
+      <ErrorAlert error={error} />
     </Box>
   );
 }
