@@ -3,6 +3,7 @@ from werkzeug.exceptions import HTTPException
 
 class ErrorHandler:
     @staticmethod
+    #handle 400 error
     def handle_invalid_usage(error):
         response = {
             "error": "Invalid usage",
@@ -11,6 +12,7 @@ class ErrorHandler:
         return jsonify(response), 400
 
     @staticmethod
+    #handle 404 error
     def handle_not_found(error):
         response = {
             "error": "Not found",
@@ -19,6 +21,7 @@ class ErrorHandler:
         return jsonify(response), 404
 
     @staticmethod
+    #handle 500 error
     def handle_internal_server_error(error):
         response = {
             "error": "Internal server error",
@@ -27,13 +30,14 @@ class ErrorHandler:
         return jsonify(response), 500
 
     @staticmethod
+    # create JSON response with the exception's name and description
     def handle_http_exception(error):
         response = {
             "error": error.name,
             "message": error.description,
         }
         return jsonify(response), error.code
-
+# Initialize the error handlers
     @staticmethod
     def init_app(app):
         app.register_error_handler(400, ErrorHandler.handle_invalid_usage)
