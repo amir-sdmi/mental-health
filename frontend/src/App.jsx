@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Container, Grid } from "@mui/material";
 import DataForm from "./components/forms/DataForm";
-import Graph from "./components/Graph";
+import Graphs from "./components/Graph";
 import "./App.css";
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
           <DataForm setResultData={setResultData} />
         </Grid>
         <Grid item xs={12} md={8}>
-          <Graph data={resultData} />
+          {resultData && <Graphs data={resultData} />}
         </Grid>
       </Grid>
     </Container>
