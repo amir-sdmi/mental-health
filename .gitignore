@@ -143,3 +143,5 @@ dmypy.json
 
 # PyCharm specific
 .idea/
+/backend/tests/__pycache__
+*.pyc
