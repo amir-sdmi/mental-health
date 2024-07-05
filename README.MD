@@ -46,3 +46,39 @@ We are using two datasets for this project:
    git clone https://github.com/yourusername/govdat-project.git
    cd govdat-project/frontend
    ```
+
+### Backend Setup
+
+1. Navigate to the backend directory:
+   cd ../backend
+
+2. Create a virtual environment:
+   python -m venv venv
+
+3. Activate the virtual environment:
+   On Windows:
+   .\venv\Scripts\activate
+   On macOS/Linux:
+   source venv/bin/activate
+
+4. Install the required packages
+   pip install -r requirements.txt
+
+### Running the Project
+
+## Run the Backend
+
+Ensure the virtual environment is activated.
+Navigate to the backend directory if not already there.
+Run the Flask application: python app/main.py
+
+### Running Tests
+
+Ensure the virtual environment is activated.
+Navigate to the "backend" directory if not already there.
+Run the tests: pytest
+
+### Sending Manual Requests to the Server
+
+Ensure the backend server is running.
+Enter request in your browser: http://127.0.0.1:5000/data/canada/2009/2010?Schizophrenia=true&Life-Ladder=true&GDP=true
