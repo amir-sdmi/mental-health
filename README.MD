@@ -55,6 +55,10 @@ npm install
 ``` bash 
 npm run dev
 ```
+4. Install CORS extension
+pleas install CORS extension to let help app work correctly, and please turn it on when you are using this app
+https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=en
+
 ###
 Backend Setup
 
