@@ -43,7 +43,7 @@ We are using two datasets for this project:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/govdat-project.git
+   git clone https://github.com/amir-sdmi/mental-health.git
    cd govdat-project/frontend
    ```
 2. Install dependencies:
