@@ -46,8 +46,17 @@ We are using two datasets for this project:
    git clone https://github.com/yourusername/govdat-project.git
    cd govdat-project/frontend
    ```
+2. Install dependencies:
+```bash
+npm install
+```
 
-### Backend Setup
+3. Run Frontend:
+``` bash 
+npm run dev
+```
+###
+Backend Setup
 
 1. Navigate to the backend directory:
    cd ../backend
