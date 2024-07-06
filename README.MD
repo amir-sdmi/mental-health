@@ -13,8 +13,8 @@ The project is divided into two main parts:
 
 ## Team Members
 
-- Amir: Frontend Development with React.js
-- Ehsan: Backend Development with Python and Flask
+- Amir
+- Ehsan
 
 ## Datasets
 
